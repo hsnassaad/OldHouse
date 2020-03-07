@@ -15,13 +15,17 @@ namespace OldHouse.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("OldHouse.Data.Patient", b =>
                 {
+<<<<<<< HEAD
                     b.Property<int>("PatientId")
+=======
+                    b.Property<int>("Id")
+>>>>>>> b4d5ae3d637992ccffc314a1fc8f956118fe3870
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -31,8 +35,11 @@ namespace OldHouse.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
+<<<<<<< HEAD
                     b.Property<string>("DisplayName");
 
+=======
+>>>>>>> b4d5ae3d637992ccffc314a1fc8f956118fe3870
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(256);
@@ -44,6 +51,7 @@ namespace OldHouse.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
+<<<<<<< HEAD
                     b.Property<int?>("MachineId");
 
                     b.Property<int?>("RelativeId");
@@ -55,6 +63,14 @@ namespace OldHouse.Migrations
                     b.HasIndex("MachineId");
 
                     b.HasIndex("RelativeId");
+=======
+                    b.Property<string>("MachineId")
+                        .HasMaxLength(2147483647);
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.HasKey("Id");
+>>>>>>> b4d5ae3d637992ccffc314a1fc8f956118fe3870
 
                     b.ToTable("Patients");
                 });
@@ -71,10 +87,17 @@ namespace OldHouse.Migrations
                         .IsRequired()
                         .HasMaxLength(2147483647);
 
+<<<<<<< HEAD
                     b.Property<string>("Level")
                         .HasMaxLength(2147483647);
 
                     b.Property<int>("PatientId");
+=======
+                    b.Property<int>("PatientId");
+
+                    b.Property<string>("level")
+                        .HasMaxLength(2147483647);
+>>>>>>> b4d5ae3d637992ccffc314a1fc8f956118fe3870
 
                     b.HasKey("Id");
 
@@ -89,11 +112,15 @@ namespace OldHouse.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+<<<<<<< HEAD
                     b.Property<string>("Battery");
 
                     b.Property<string>("SerialNumber");
 
                     b.Property<string>("Status");
+=======
+                    b.Property<float>("BloodPressure");
+>>>>>>> b4d5ae3d637992ccffc314a1fc8f956118fe3870
 
                     b.HasKey("MachineId");
 
@@ -106,20 +133,31 @@ namespace OldHouse.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+<<<<<<< HEAD
                     b.Property<float>("BloodPressure");
 
                     b.Property<DateTime>("CreatedAt");
 
+=======
+>>>>>>> b4d5ae3d637992ccffc314a1fc8f956118fe3870
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(2147483647);
 
                     b.Property<float>("GlucoseLevel");
+<<<<<<< HEAD
 
                     b.Property<float>("HeartRate");
 
                     b.Property<int>("PatientId");
 
+=======
+
+                    b.Property<float>("HeartRate");
+
+                    b.Property<int>("PatientId");
+
+>>>>>>> b4d5ae3d637992ccffc314a1fc8f956118fe3870
                     b.Property<float>("Temperature");
 
                     b.HasKey("Id");
@@ -139,6 +177,8 @@ namespace OldHouse.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
+                    b.Property<int>("PatientId");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(256);
@@ -149,9 +189,10 @@ namespace OldHouse.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Relatives");
-                });
+                    b.HasIndex("PatientId")
+                        .IsUnique();
 
+<<<<<<< HEAD
             modelBuilder.Entity("OldHouse.Data.Patient", b =>
                 {
                     b.HasOne("OldHouse.Models.Machine", "Machine")
@@ -161,6 +202,9 @@ namespace OldHouse.Migrations
                     b.HasOne("OldHouse.Models.Relative", "Relative")
                         .WithMany()
                         .HasForeignKey("RelativeId");
+=======
+                    b.ToTable("Relatives");
+>>>>>>> b4d5ae3d637992ccffc314a1fc8f956118fe3870
                 });
 
             modelBuilder.Entity("OldHouse.Models.Alert", b =>
@@ -177,6 +221,17 @@ namespace OldHouse.Migrations
                         .WithMany("Records")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade);
+<<<<<<< HEAD
+=======
+                });
+
+            modelBuilder.Entity("OldHouse.Models.Relative", b =>
+                {
+                    b.HasOne("OldHouse.Data.Patient", "Patient")
+                        .WithOne("Relative")
+                        .HasForeignKey("OldHouse.Models.Relative", "PatientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+>>>>>>> b4d5ae3d637992ccffc314a1fc8f956118fe3870
                 });
 #pragma warning restore 612, 618
         }

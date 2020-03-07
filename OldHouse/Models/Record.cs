@@ -30,6 +30,10 @@ namespace OldHouse.Models
         [Range(0, 1000000000)]
         public float GlucoseLevel { get; set; }
 
+<<<<<<< HEAD
+=======
+        [Range(0, 1000000000)]
+>>>>>>> b4d5ae3d637992ccffc314a1fc8f956118fe3870
         public int PatientId { get; set; }
 
         [ForeignKey("PatientId")]

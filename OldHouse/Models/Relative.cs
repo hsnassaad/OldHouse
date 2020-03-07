@@ -1,6 +1,7 @@
 ﻿using OldHouse.Data;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OldHouse.Models
 {
@@ -21,5 +22,11 @@ namespace OldHouse.Models
         [Required]
         [StringLength(256, ErrorMessage = "Maximum length for relative relation number is {1}")]
         public string Relation { get; set; }
-    }
+
+		[Range(0, 1000000000)]
+		public int PatientId { get; set; }
+
+		[ForeignKey("PatientId")]
+		public Patient Patient { get; set; }
+	}
 }
