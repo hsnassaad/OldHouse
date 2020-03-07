@@ -32,6 +32,9 @@ namespace OldHouse.Data
 
         public string BloodType { get; set; }
 
+        public int MachineId { get; set; }
+
+        [ForeignKey("MachineId")]
         public Machine Machine { get; set; }
 
       
