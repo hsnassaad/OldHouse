@@ -15,24 +15,20 @@ namespace OldHouse.Models
         public string Description { get; set; }
 
         [Required]
-        [StringLength(256, ErrorMessage = "Maximum length for first name is {1}")]
-        public string BloodPressur { get; set; }
+        [Range(0, 1000000000)]
+        public float BloodPressure { get; set; }
 
         [Required]
         [Range(0, 1000000000)]
-        public int HeartBeatPerSecond { get; set; }
+        public float HeartRate { get; set; }
 
         [Required]
         [Range(0, 1000000000)]
-        public int Temperature { get; set; }
+        public float Temperature { get; set; }
 
         [Required]
         [Range(0, 1000000000)]
-        public int BloodSugarLevel { get; set; }
-
-        [Required]
-        [Range(0, 1000000000)]
-        public int CholesterolLevel { get; set; }
+        public float GlucoseLevel { get; set; }
 
         [Range(0, 1000000000)]
         public string PatientId { get; set; }
@@ -43,6 +39,6 @@ namespace OldHouse.Models
         [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public bool Deleted { get; set; }
+        //public bool Deleted { get; set; }
     }
 }

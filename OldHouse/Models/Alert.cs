@@ -24,9 +24,12 @@ namespace OldHouse.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public bool Seen { get; set; }
+		[StringLength(int.MaxValue, ErrorMessage = "Maximum length for first name is {1}")]
+		public String level { get; set; }
 
-        public DateTime SeenAt { get; set; }
+		//public bool Seen { get; set; }
 
-    }
+		//public DateTime SeenAt { get; set; }
+
+	}
 }
