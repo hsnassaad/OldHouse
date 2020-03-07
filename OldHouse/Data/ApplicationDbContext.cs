@@ -6,7 +6,7 @@ using System;
 
 namespace OldHouse.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -17,6 +17,7 @@ namespace OldHouse.Data
             base.OnModelCreating(builder);
         }
 
+        public DbSet<Patient> Patients { get; set; }
         public DbSet<Alert> Alerts { get; set; }
         public DbSet<Relative> Relatives { get; set; }
         public DbSet<Record> Records { get; set; }
