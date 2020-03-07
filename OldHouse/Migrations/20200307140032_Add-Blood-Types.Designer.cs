@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OldHouse.Data;
 
 namespace OldHouse.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200307140032_Add-Blood-Types")]
+    partial class AddBloodTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +23,7 @@ namespace OldHouse.Migrations
 
             modelBuilder.Entity("OldHouse.Data.Patient", b =>
                 {
-                    b.Property<int>("PatientId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -30,8 +32,6 @@ namespace OldHouse.Migrations
                     b.Property<string>("BloodType");
 
                     b.Property<DateTime>("CreatedAt");
-
-                    b.Property<string>("DisplayName");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -44,15 +44,13 @@ namespace OldHouse.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
-                    b.Property<int?>("MachineId");
+                    b.Property<string>("MachineId");
 
                     b.Property<int?>("RelativeId");
 
                     b.Property<DateTime?>("UpdatedAt");
 
-                    b.HasKey("PatientId");
-
-                    b.HasIndex("MachineId");
+                    b.HasKey("Id");
 
                     b.HasIndex("RelativeId");
 
@@ -81,23 +79,6 @@ namespace OldHouse.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("Alerts");
-                });
-
-            modelBuilder.Entity("OldHouse.Models.Machine", b =>
-                {
-                    b.Property<int>("MachineId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Battery");
-
-                    b.Property<string>("SerialNumber");
-
-                    b.Property<string>("Status");
-
-                    b.HasKey("MachineId");
-
-                    b.ToTable("Machine");
                 });
 
             modelBuilder.Entity("OldHouse.Models.Record", b =>
@@ -154,10 +135,6 @@ namespace OldHouse.Migrations
 
             modelBuilder.Entity("OldHouse.Data.Patient", b =>
                 {
-                    b.HasOne("OldHouse.Models.Machine", "Machine")
-                        .WithMany()
-                        .HasForeignKey("MachineId");
-
                     b.HasOne("OldHouse.Models.Relative", "Relative")
                         .WithMany()
                         .HasForeignKey("RelativeId");

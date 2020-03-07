@@ -18,6 +18,8 @@ namespace OldHouse.Data
         }
 
         public DbSet<Patient> Patients { get; set; }
+        public DbSet<Machine> Machines { get; set; }
+
         public DbSet<Alert> Alerts { get; set; }
         public DbSet<Relative> Relatives { get; set; }
         public DbSet<Record> Records { get; set; }
