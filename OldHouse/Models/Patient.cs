@@ -1,15 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using OldHouse.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OldHouse.Data
 {
     public class Patient
     {
 		[Key]
-		public int Id { get; set; }
+		public int PatientId { get; set; }
 
 		[Required]
         [StringLength(256, ErrorMessage = "Maximum length for first name is {1}")]
@@ -28,12 +30,17 @@ namespace OldHouse.Data
         [StringLength(256, ErrorMessage = "Maximum length for display name is {1}")]
         public string Gender { get; set; }
 
-        [StringLength(256, ErrorMessage = "Maximum length for display name is {1}")]
         public string BloodType { get; set; }
 
-        [StringLength(int.MaxValue, ErrorMessage = "Maximum length for display name is {1}")]
-        [RegularExpression("^[A-Za-z]+$")]
-        public string MachineId { get; set; }
+        public Machine Machine { get; set; }
+
+      
+        public string DisplayName
+        {
+            get { return FirstName + ' ' + LastName; }
+            set { }
+        }
+
 
         [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
@@ -41,6 +48,18 @@ namespace OldHouse.Data
         [Display(Name = "Updated At")]
         public DateTime? UpdatedAt { get; set; }
 
+        [NotMapped]
+        public IEnumerable<SelectListItem> BloodTypes { get; set; } = new List<SelectListItem>
+        {
+                new SelectListItem {Value="B+",Text="B+"},
+                new SelectListItem {Value="O+",Text="O+"},
+                new SelectListItem {Value="A+",Text="A+"},
+                new SelectListItem {Value="AB+",Text="AB+"},
+                new SelectListItem {Value="B-",Text="B-"},
+                new SelectListItem {Value="O-",Text="O-"},
+                new SelectListItem {Value="A-",Text="A-"},
+                new SelectListItem {Value="AB-",Text="AB-"}
+        };
         public List<Record> Records { get; set; }
 
         public Relative Relative { get; set; }

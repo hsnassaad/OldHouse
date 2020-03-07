@@ -10,8 +10,8 @@ using OldHouse.Data;
 namespace OldHouse.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200307120818_Remove-Identity")]
-    partial class RemoveIdentity
+    [Migration("20200307154037_InitTables")]
+    partial class InitTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,18 +23,17 @@ namespace OldHouse.Migrations
 
             modelBuilder.Entity("OldHouse.Data.Patient", b =>
                 {
-                    b.Property<string>("PatientId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("PatientId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Birthday");
+                    b.Property<DateTime>("Birthdate");
 
-                    b.Property<string>("BloodType")
-                        .HasMaxLength(256);
+                    b.Property<string>("BloodType");
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<string>("DisplayName")
-                        .HasMaxLength(256);
+                    b.Property<string>("DisplayName");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -43,27 +42,19 @@ namespace OldHouse.Migrations
                     b.Property<string>("Gender")
                         .HasMaxLength(256);
 
-                    b.Property<bool>("IsAlive");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(256);
 
-                    b.Property<string>("MachineId")
-                        .HasMaxLength(2147483647);
-
-                    b.Property<string>("MiddleName")
-                        .HasMaxLength(256);
-
-                    b.Property<int?>("RelativeId");
+                    b.Property<int?>("MachineId");
 
                     b.Property<DateTime?>("UpdatedAt");
 
                     b.HasKey("PatientId");
 
-                    b.HasIndex("RelativeId");
+                    b.HasIndex("MachineId");
 
-                    b.ToTable("Patient");
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("OldHouse.Models.Alert", b =>
@@ -78,11 +69,10 @@ namespace OldHouse.Migrations
                         .IsRequired()
                         .HasMaxLength(2147483647);
 
-                    b.Property<string>("PatientId");
+                    b.Property<string>("Level")
+                        .HasMaxLength(2147483647);
 
-                    b.Property<bool>("Seen");
-
-                    b.Property<DateTime>("SeenAt");
+                    b.Property<int>("PatientId");
 
                     b.HasKey("Id");
 
@@ -91,33 +81,44 @@ namespace OldHouse.Migrations
                     b.ToTable("Alerts");
                 });
 
+            modelBuilder.Entity("OldHouse.Models.Machine", b =>
+                {
+                    b.Property<int>("MachineId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Battery");
+
+                    b.Property<string>("SerialNumber");
+
+                    b.Property<string>("Status");
+
+                    b.HasKey("MachineId");
+
+                    b.ToTable("Machines");
+                });
+
             modelBuilder.Entity("OldHouse.Models.Record", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("BloodPressur")
-                        .IsRequired()
-                        .HasMaxLength(256);
-
-                    b.Property<int>("BloodSugarLevel");
-
-                    b.Property<int>("CholesterolLevel");
+                    b.Property<float>("BloodPressure");
 
                     b.Property<DateTime>("CreatedAt");
-
-                    b.Property<bool>("Deleted");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(2147483647);
 
-                    b.Property<int>("HeartBeatPerSecond");
+                    b.Property<float>("GlucoseLevel");
 
-                    b.Property<string>("PatientId");
+                    b.Property<float>("HeartRate");
 
-                    b.Property<int>("Temperature");
+                    b.Property<int>("PatientId");
+
+                    b.Property<float>("Temperature");
 
                     b.HasKey("Id");
 
@@ -136,6 +137,8 @@ namespace OldHouse.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
+                    b.Property<int>("PatientId");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(256);
@@ -146,28 +149,41 @@ namespace OldHouse.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PatientId")
+                        .IsUnique();
+
                     b.ToTable("Relatives");
                 });
 
             modelBuilder.Entity("OldHouse.Data.Patient", b =>
                 {
-                    b.HasOne("OldHouse.Models.Relative", "Relative")
+                    b.HasOne("OldHouse.Models.Machine", "Machine")
                         .WithMany()
-                        .HasForeignKey("RelativeId");
+                        .HasForeignKey("MachineId");
                 });
 
             modelBuilder.Entity("OldHouse.Models.Alert", b =>
                 {
                     b.HasOne("OldHouse.Data.Patient", "Patient")
                         .WithMany("Alerts")
-                        .HasForeignKey("PatientId");
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("OldHouse.Models.Record", b =>
                 {
                     b.HasOne("OldHouse.Data.Patient", "Patient")
                         .WithMany("Records")
-                        .HasForeignKey("PatientId");
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("OldHouse.Models.Relative", b =>
+                {
+                    b.HasOne("OldHouse.Data.Patient", "Patient")
+                        .WithOne("Relative")
+                        .HasForeignKey("OldHouse.Models.Relative", "PatientId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

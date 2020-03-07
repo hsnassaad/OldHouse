@@ -17,7 +17,7 @@ namespace OldHouse.Models
         [StringLength(int.MaxValue, ErrorMessage = "Maximum length for first name is {1}")]
         public string Description { get; set; }
 
-        public string PatientId { get; set; }
+        public int PatientId { get; set; }
 
         [ForeignKey("PatientId")]
         public Patient Patient { get; set; }
@@ -25,11 +25,7 @@ namespace OldHouse.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
 		[StringLength(int.MaxValue, ErrorMessage = "Maximum length for first name is {1}")]
-		public String level { get; set; }
-
-		//public bool Seen { get; set; }
-
-		//public DateTime SeenAt { get; set; }
+		public String Level { get; set; }
 
 	}
 }
