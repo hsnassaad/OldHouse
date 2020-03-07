@@ -38,25 +38,6 @@ namespace OldHouse
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connString));
 
-            services.AddIdentity<Patient, IdentityRole>(options =>
-            {
-                //options.Password.RequireDigit = true;
-                //options.Password.RequiredLength = 6;
-                //options.Password.RequireNonAlphanumeric = true;
-                //options.Password.RequireUppercase = true;
-                //options.Password.RequireLowercase = true;
-                //options.User.RequireUniqueEmail = true;
-                //// Lockout settings.
-                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                //options.Lockout.MaxFailedAccessAttempts = 5;
-                //options.Lockout.AllowedForNewUsers = true;
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 4;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-
-            }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

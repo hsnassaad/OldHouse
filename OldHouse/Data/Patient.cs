@@ -7,8 +7,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OldHouse.Data
 {
-    public class Patient : IdentityUser
+    public class Patient
     {
+        [Key]
+        public string PatientId { get; set; }
         [Required]
         [StringLength(256, ErrorMessage = "Maximum length for first name is {1}")]
         [Display(Name = "First Name")]
