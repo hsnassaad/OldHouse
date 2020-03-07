@@ -5,21 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200307145435_Add-Machine-Table.cs" />
-    <Compile Remove="Migrations\20200307145435_Add-Machine-Table.Designer.cs" />
-    <Compile Remove="Migrations\20200307145539_Remove-Machine-Table.cs" />
-    <Compile Remove="Migrations\20200307145539_Remove-Machine-Table.Designer.cs" />
-    <Compile Remove="Migrations\20200307145621_Add-Machines.cs" />
-    <Compile Remove="Migrations\20200307145621_Add-Machines.Designer.cs" />
-    <Compile Remove="Migrations\20200307150206_Add-Machines.cs" />
-    <Compile Remove="Migrations\20200307150206_Add-Machines.Designer.cs" />
-    <Compile Remove="Migrations\20200307150658_Add-Machines.cs" />
-    <Compile Remove="Migrations\20200307150658_Add-Machines.Designer.cs" />
-    <Compile Remove="Migrations\20200307151056_Add-Machines.cs" />
-    <Compile Remove="Migrations\20200307151056_Add-Machines.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />

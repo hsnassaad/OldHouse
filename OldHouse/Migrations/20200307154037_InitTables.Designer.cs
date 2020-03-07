@@ -10,8 +10,8 @@ using OldHouse.Data;
 namespace OldHouse.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200307140032_Add-Blood-Types")]
-    partial class AddBloodTypes
+    [Migration("20200307154037_InitTables")]
+    partial class InitTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace OldHouse.Migrations
 
             modelBuilder.Entity("OldHouse.Data.Patient", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PatientId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -32,6 +32,8 @@ namespace OldHouse.Migrations
                     b.Property<string>("BloodType");
 
                     b.Property<DateTime>("CreatedAt");
+
+                    b.Property<string>("DisplayName");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -44,15 +46,13 @@ namespace OldHouse.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
-                    b.Property<string>("MachineId");
-
-                    b.Property<int?>("RelativeId");
+                    b.Property<int?>("MachineId");
 
                     b.Property<DateTime?>("UpdatedAt");
 
-                    b.HasKey("Id");
+                    b.HasKey("PatientId");
 
-                    b.HasIndex("RelativeId");
+                    b.HasIndex("MachineId");
 
                     b.ToTable("Patients");
                 });
@@ -79,6 +79,23 @@ namespace OldHouse.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("Alerts");
+                });
+
+            modelBuilder.Entity("OldHouse.Models.Machine", b =>
+                {
+                    b.Property<int>("MachineId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Battery");
+
+                    b.Property<string>("SerialNumber");
+
+                    b.Property<string>("Status");
+
+                    b.HasKey("MachineId");
+
+                    b.ToTable("Machines");
                 });
 
             modelBuilder.Entity("OldHouse.Models.Record", b =>
@@ -120,6 +137,8 @@ namespace OldHouse.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
+                    b.Property<int>("PatientId");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(256);
@@ -130,14 +149,17 @@ namespace OldHouse.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PatientId")
+                        .IsUnique();
+
                     b.ToTable("Relatives");
                 });
 
             modelBuilder.Entity("OldHouse.Data.Patient", b =>
                 {
-                    b.HasOne("OldHouse.Models.Relative", "Relative")
+                    b.HasOne("OldHouse.Models.Machine", "Machine")
                         .WithMany()
-                        .HasForeignKey("RelativeId");
+                        .HasForeignKey("MachineId");
                 });
 
             modelBuilder.Entity("OldHouse.Models.Alert", b =>
@@ -153,6 +175,14 @@ namespace OldHouse.Migrations
                     b.HasOne("OldHouse.Data.Patient", "Patient")
                         .WithMany("Records")
                         .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("OldHouse.Models.Relative", b =>
+                {
+                    b.HasOne("OldHouse.Data.Patient", "Patient")
+                        .WithOne("Relative")
+                        .HasForeignKey("OldHouse.Models.Relative", "PatientId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
