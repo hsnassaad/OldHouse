@@ -17,7 +17,6 @@ namespace OldHouse.Data
             base.OnModelCreating(builder);
         }
 
-        public DbSet<Patient> Patients { get; set; }
         public DbSet<Alert> Alerts { get; set; }
         public DbSet<Relative> Relatives { get; set; }
         public DbSet<Record> Records { get; set; }
