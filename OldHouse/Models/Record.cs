@@ -31,7 +31,7 @@ namespace OldHouse.Models
         public float GlucoseLevel { get; set; }
 
         [Range(0, 1000000000)]
-        public string PatientId { get; set; }
+        public int PatientId { get; set; }
 
         [ForeignKey("PatientId")]
         public Patient Patient { get; set; }

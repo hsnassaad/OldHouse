@@ -17,15 +17,16 @@ namespace OldHouse.Models
         [StringLength(int.MaxValue, ErrorMessage = "Maximum length for first name is {1}")]
         public string Description { get; set; }
 
-        public string PatientId { get; set; }
-
-        [ForeignKey("PatientId")]
-        public Patient Patient { get; set; }
-
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
 		[StringLength(int.MaxValue, ErrorMessage = "Maximum length for first name is {1}")]
 		public String level { get; set; }
+
+		[Range(0, 1000000000)]
+		public int PatientId { get; set; }
+
+		[ForeignKey("PatientId")]
+		public Patient Patient { get; set; }
 
 		//public bool Seen { get; set; }
 
