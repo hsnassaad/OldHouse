@@ -45,7 +45,21 @@ namespace OldHouse.Controllers
         // GET: Patients/Create
         public IActionResult Create()
         {
-            return View();
+            var patient = new Patient();
+
+            patient.BloodTypes = new List<SelectListItem>
+        {
+                new SelectListItem {Value="B+",Text="B+"},
+                new SelectListItem {Value="O+",Text="O+"},
+                new SelectListItem {Value="A+",Text="A+"},
+                new SelectListItem {Value="AB+",Text="AB+"},
+                new SelectListItem {Value="B-",Text="B-"},
+                new SelectListItem {Value="O-",Text="O-"},
+                new SelectListItem {Value="A-",Text="A-"},
+                new SelectListItem {Value="AB-",Text="AB-"}
+        };
+
+            return View(patient);
         }
 
         // POST: Patients/Create
@@ -61,6 +75,19 @@ namespace OldHouse.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            patient.BloodTypes = new List<SelectListItem>
+        {
+                new SelectListItem {Value="B+",Text="B+"},
+                new SelectListItem {Value="O+",Text="O+"},
+                new SelectListItem {Value="A+",Text="A+"},
+                new SelectListItem {Value="AB+",Text="AB+"},
+                new SelectListItem {Value="B-",Text="B-"},
+                new SelectListItem {Value="O-",Text="O-"},
+                new SelectListItem {Value="A-",Text="A-"},
+                new SelectListItem {Value="AB-",Text="AB-"}
+        };
+
             return View(patient);
         }
 
@@ -77,6 +104,19 @@ namespace OldHouse.Controllers
             {
                 return NotFound();
             }
+
+            patient.BloodTypes = new List<SelectListItem>
+        {
+                new SelectListItem {Value="B+",Text="B+"},
+                new SelectListItem {Value="O+",Text="O+"},
+                new SelectListItem {Value="A+",Text="A+"},
+                new SelectListItem {Value="AB+",Text="AB+"},
+                new SelectListItem {Value="B-",Text="B-"},
+                new SelectListItem {Value="O-",Text="O-"},
+                new SelectListItem {Value="A-",Text="A-"},
+                new SelectListItem {Value="AB-",Text="AB-"}
+        };
+
             return View(patient);
         }
 

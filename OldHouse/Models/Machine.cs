@@ -13,9 +13,10 @@ namespace OldHouse.Models
         [Key]
         public int MachineId { get; set; }
 
-		public string Battery { get; set; }
+        [Range(0,100)]
+		public int Battery { get; set; }
 
-        public string Status { get; set; }
+        public Status Status { get; set; }
 
         public string SerialNumber
         {
@@ -23,10 +24,13 @@ namespace OldHouse.Models
             set { }
         }
 
-		[Range(0, 1000000000)]
-		public int PatientId { get; set; }
+        public Patient Patient { get; set; }
+    }
 
-		[ForeignKey("PatientId")]
-		public Patient Patient { get; set; }
-	}
+   public enum Status
+    {
+        IN_USE = 1,
+        AVAILABLE = 2,
+        OUT_OF_SERVICE = 3
+    }
 }

@@ -25,18 +25,26 @@ namespace OldHouse.Data
 
         [Required]
         [DataType(DataType.Date)]
+        [Display(Name = "Date Of Birth")]
         public DateTime Birthdate { get; set; }
 
         [StringLength(256, ErrorMessage = "Maximum length for display name is {1}")]
         public string Gender { get; set; }
 
+        [Display(Name = "Blood Type")]
         public string BloodType { get; set; }
-		
+
+        [Display(Name = "Display Name")]
         public string DisplayName
         {
             get { return FirstName + ' ' + LastName; }
             set { }
         }
+
+        public int MachineId { get; set; }
+
+        [ForeignKey("MachineId")]
+        public Machine Machine { get; set; }
 
         [Display(Name = "Created At")]
 		[DataType(DataType.DateTime)]
@@ -47,17 +55,7 @@ namespace OldHouse.Data
 		public DateTime? UpdatedAt { get; set; }
 
         [NotMapped]
-        public IEnumerable<SelectListItem> BloodTypes { get; set; } = new List<SelectListItem>
-        {
-                new SelectListItem {Value="B+",Text="B+"},
-                new SelectListItem {Value="O+",Text="O+"},
-                new SelectListItem {Value="A+",Text="A+"},
-                new SelectListItem {Value="AB+",Text="AB+"},
-                new SelectListItem {Value="B-",Text="B-"},
-                new SelectListItem {Value="O-",Text="O-"},
-                new SelectListItem {Value="A-",Text="A-"},
-                new SelectListItem {Value="AB-",Text="AB-"}
-        };
+        public IEnumerable<SelectListItem> BloodTypes { get; set; }
 
         public List<Record> Records { get; set; }
         public Relative Relative { get; set; }

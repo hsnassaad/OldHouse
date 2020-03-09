@@ -15,7 +15,7 @@ namespace OldHouse.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -44,9 +44,14 @@ namespace OldHouse.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
+                    b.Property<int>("MachineId");
+
                     b.Property<DateTime?>("UpdatedAt");
 
                     b.HasKey("PatientId");
+
+                    b.HasIndex("MachineId")
+                        .IsUnique();
 
                     b.ToTable("Patients");
                 });
@@ -81,17 +86,13 @@ namespace OldHouse.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Battery");
-
-                    b.Property<int>("PatientId");
+                    b.Property<int>("Battery");
 
                     b.Property<string>("SerialNumber");
 
-                    b.Property<string>("Status");
+                    b.Property<int>("Status");
 
                     b.HasKey("MachineId");
-
-                    b.HasIndex("PatientId");
 
                     b.ToTable("Machines");
                 });
@@ -153,18 +154,18 @@ namespace OldHouse.Migrations
                     b.ToTable("Relatives");
                 });
 
+            modelBuilder.Entity("OldHouse.Data.Patient", b =>
+                {
+                    b.HasOne("OldHouse.Models.Machine", "Machine")
+                        .WithOne("Patient")
+                        .HasForeignKey("OldHouse.Data.Patient", "MachineId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("OldHouse.Models.Alert", b =>
                 {
                     b.HasOne("OldHouse.Data.Patient", "Patient")
                         .WithMany("Alerts")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("OldHouse.Models.Machine", b =>
-                {
-                    b.HasOne("OldHouse.Data.Patient", "Patient")
-                        .WithMany()
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
