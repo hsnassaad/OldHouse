@@ -48,7 +48,21 @@ namespace OldHouse.Controllers
         public IActionResult Create()
         {
             ViewData["MachineId"] = new SelectList(_context.Machines, "MachineId", "SerialNumber");
-            return View();
+          
+            var patient = new Patient();
+
+            patient.BloodTypes = new List<SelectListItem>
+        {
+                new SelectListItem {Value="B+",Text="B+"},
+                new SelectListItem {Value="O+",Text="O+"},
+                new SelectListItem {Value="A+",Text="A+"},
+                new SelectListItem {Value="AB+",Text="AB+"},
+                new SelectListItem {Value="B-",Text="B-"},
+                new SelectListItem {Value="O-",Text="O-"},
+                new SelectListItem {Value="A-",Text="A-"},
+                new SelectListItem {Value="AB-",Text="AB-"}
+        };
+            return View(patient);
         }
 
         // POST: Patients/Create
@@ -65,6 +79,18 @@ namespace OldHouse.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["MachineId"] = new SelectList(_context.Machines, "MachineId", "SerialNumber", patient.MachineId);
+            
+            patient.BloodTypes = new List<SelectListItem>
+        {
+                new SelectListItem {Value="B+",Text="B+"},
+                new SelectListItem {Value="O+",Text="O+"},
+                new SelectListItem {Value="A+",Text="A+"},
+                new SelectListItem {Value="AB+",Text="AB+"},
+                new SelectListItem {Value="B-",Text="B-"},
+                new SelectListItem {Value="O-",Text="O-"},
+                new SelectListItem {Value="A-",Text="A-"},
+                new SelectListItem {Value="AB-",Text="AB-"}
+        };
             return View(patient);
         }
 
@@ -81,6 +107,19 @@ namespace OldHouse.Controllers
             {
                 return NotFound();
             }
+
+            patient.BloodTypes = new List<SelectListItem>
+        {
+                new SelectListItem {Value="B+",Text="B+"},
+                new SelectListItem {Value="O+",Text="O+"},
+                new SelectListItem {Value="A+",Text="A+"},
+                new SelectListItem {Value="AB+",Text="AB+"},
+                new SelectListItem {Value="B-",Text="B-"},
+                new SelectListItem {Value="O-",Text="O-"},
+                new SelectListItem {Value="A-",Text="A-"},
+                new SelectListItem {Value="AB-",Text="AB-"}
+        };
+
             ViewData["MachineId"] = new SelectList(_context.Machines, "MachineId", "SerialNumber", patient.MachineId);
             return View(patient);
         }

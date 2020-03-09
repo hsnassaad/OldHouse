@@ -52,17 +52,7 @@ namespace OldHouse.Data
         public DateTime? UpdatedAt { get; set; }
 
         [NotMapped]
-        public IEnumerable<SelectListItem> BloodTypes { get; set; } = new List<SelectListItem>
-        {
-                new SelectListItem {Value="B+",Text="B+"},
-                new SelectListItem {Value="O+",Text="O+"},
-                new SelectListItem {Value="A+",Text="A+"},
-                new SelectListItem {Value="AB+",Text="AB+"},
-                new SelectListItem {Value="B-",Text="B-"},
-                new SelectListItem {Value="O-",Text="O-"},
-                new SelectListItem {Value="A-",Text="A-"},
-                new SelectListItem {Value="AB-",Text="AB-"}
-        };
+        public IEnumerable<SelectListItem> BloodTypes { get; set; }
         public List<Record> Records { get; set; }
 
         public Relative Relative { get; set; }
