@@ -41,7 +41,7 @@ namespace OldHouse.Data
             set { }
         }
 
-        public int MachineId { get; set; }
+        public int? MachineId { get; set; }
 
         [ForeignKey("MachineId")]
         public Machine Machine { get; set; }

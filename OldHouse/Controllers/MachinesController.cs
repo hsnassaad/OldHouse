@@ -10,23 +10,22 @@ using OldHouse.Models;
 
 namespace OldHouse.Controllers
 {
-    public class RecordsController : Controller
+    public class MachinesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public RecordsController(ApplicationDbContext context)
+        public MachinesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Records
+        // GET: Machines
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Records.Include(r => r.Patient);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Machines.ToListAsync());
         }
 
-        // GET: Records/Details/5
+        // GET: Machines/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +33,43 @@ namespace OldHouse.Controllers
                 return NotFound();
             }
 
-            var record = await _context.Records
-                .Include(r => r.Patient)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (record == null)
+            var machine = await _context.Machines
+                .FirstOrDefaultAsync(m => m.MachineId == id);
+            if (machine == null)
             {
                 return NotFound();
             }
 
-            return View(record);
+            return View(machine);
         }
 
-        // GET: Records/Create
+        // GET: Machines/Create
         public IActionResult Create()
         {
-            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DisplayName");
             return View();
         }
 
-        // POST: Records/Create
+        // POST: Machines/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description,BloodPressure,HeartRate,Temperature,GlucoseLevel,PatientId,CreatedAt")] Record record)
+        public async Task<IActionResult> Create(int num)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(record);
+                for (int i = 0; i < num; i++)
+                {
+                    var machine = new Machine()
+                    {
+                        Battery = 100,
+                        Status = Status.AVAILABLE
+                    };
+                _context.Add(machine);
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DisplayName", record.PatientId);
-            return View(record);
         }
 
-        // GET: Records/Edit/5
+        // GET: Machines/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +77,23 @@ namespace OldHouse.Controllers
                 return NotFound();
             }
 
-            var record = await _context.Records.FindAsync(id);
-            if (record == null)
+            var machine = await _context.Machines.FindAsync(id);
+
+            if (machine == null)
             {
                 return NotFound();
             }
-            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DisplayName", record.PatientId);
-            return View(record);
+            return View(machine);
         }
 
-        // POST: Records/Edit/5
+        // POST: Machines/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,BloodPressure,HeartRate,Temperature,GlucoseLevel,PatientId,CreatedAt")] Record record)
+        public async Task<IActionResult> Edit(int id, [Bind("MachineId,Battery,Status,SerialNumber")] Machine machine)
         {
-            if (id != record.Id)
+            if (id != machine.MachineId)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace OldHouse.Controllers
             {
                 try
                 {
-                    _context.Update(record);
+                    _context.Update(machine);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RecordExists(record.Id))
+                    if (!MachineExists(machine.MachineId))
                     {
                         return NotFound();
                     }
@@ -118,11 +118,10 @@ namespace OldHouse.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DisplayName", record.PatientId);
-            return View(record);
+            return View(machine);
         }
 
-        // GET: Records/Delete/5
+        // GET: Machines/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,31 +129,30 @@ namespace OldHouse.Controllers
                 return NotFound();
             }
 
-            var record = await _context.Records
-                .Include(r => r.Patient)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (record == null)
+            var machine = await _context.Machines
+                .FirstOrDefaultAsync(m => m.MachineId == id);
+            if (machine == null)
             {
                 return NotFound();
             }
 
-            return View(record);
+            return View(machine);
         }
 
-        // POST: Records/Delete/5
+        // POST: Machines/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var record = await _context.Records.FindAsync(id);
-            _context.Records.Remove(record);
+            var machine = await _context.Machines.FindAsync(id);
+            _context.Machines.Remove(machine);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RecordExists(int id)
+        private bool MachineExists(int id)
         {
-            return _context.Records.Any(e => e.Id == id);
+            return _context.Machines.Any(e => e.MachineId == id);
         }
     }
 }

@@ -18,6 +18,27 @@ namespace OldHouse.Controllers
             _context = context;
         }
 
+        public IActionResult AssignPatientToMachine()
+        {
+            ViewData["MachineId"] = new SelectList(_context.Machines, "MachineId", "SerialNumber");
+            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DisplayName");
+
+
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignPatientToMachine(int patientId, int machineId)
+        {
+            var patient = await _context.Patients.FirstOrDefaultAsync(p => p.PatientId == patientId);
+            patient.MachineId = machineId;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         // GET: Patients
         public async Task<IActionResult> Index()
         {
@@ -32,8 +53,9 @@ namespace OldHouse.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patients
+            var patient = await _context.Patients.Include(p=>p.Machine)
                 .FirstOrDefaultAsync(m => m.PatientId == id);
+
             if (patient == null)
             {
                 return NotFound();

@@ -40,6 +40,17 @@
         <dd>
             @Html.DisplayFor(model => model.BloodType)
         </dd>
+
+        @if (Model.MachineId != null)
+        {
+        <dt>
+            @Html.DisplayNameFor(model => model.Machine)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Machine.SerialNumber)
+        </dd>
+        }
+
     </dl>
 </div>
 <div>
