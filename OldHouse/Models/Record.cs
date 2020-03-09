@@ -32,12 +32,11 @@ namespace OldHouse.Models
 
         public int PatientId { get; set; }
 
-        [ForeignKey("PatientId")]
-        public Patient Patient { get; set; }
-
+		[DataType(DataType.DateTime)]
         [Display(Name = "Created At")]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+		public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        //public bool Deleted { get; set; }
+		[ForeignKey("PatientId")]
+        public Patient Patient { get; set; }
     }
 }

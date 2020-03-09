@@ -13,7 +13,7 @@ namespace OldHouse.Models
         [Key]
         public int MachineId { get; set; }
 
-        public string Battery { get; set; }
+		public string Battery { get; set; }
 
         public string Status { get; set; }
 
@@ -22,5 +22,11 @@ namespace OldHouse.Models
             get { return "Machine #" + ' ' + MachineId; }
             set { }
         }
-    }
+
+		[Range(0, 1000000000)]
+		public int PatientId { get; set; }
+
+		[ForeignKey("PatientId")]
+		public Patient Patient { get; set; }
+	}
 }

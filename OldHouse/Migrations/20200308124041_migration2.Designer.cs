@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OldHouse.Data;
 
 namespace OldHouse.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200308124041_migration2")]
+    partial class migration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,7 @@ namespace OldHouse.Migrations
 
                     b.Property<string>("BloodType");
 
-                    b.Property<DateTime?>("CreatedAt");
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("DisplayName");
 
@@ -44,9 +46,13 @@ namespace OldHouse.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
+                    b.Property<int>("MachineId");
+
                     b.Property<DateTime?>("UpdatedAt");
 
                     b.HasKey("PatientId");
+
+                    b.HasIndex("MachineId");
 
                     b.ToTable("Patients");
                 });
@@ -83,15 +89,11 @@ namespace OldHouse.Migrations
 
                     b.Property<string>("Battery");
 
-                    b.Property<int>("PatientId");
-
                     b.Property<string>("SerialNumber");
 
                     b.Property<string>("Status");
 
                     b.HasKey("MachineId");
-
-                    b.HasIndex("PatientId");
 
                     b.ToTable("Machines");
                 });
@@ -153,18 +155,18 @@ namespace OldHouse.Migrations
                     b.ToTable("Relatives");
                 });
 
+            modelBuilder.Entity("OldHouse.Data.Patient", b =>
+                {
+                    b.HasOne("OldHouse.Models.Machine", "Machine")
+                        .WithMany()
+                        .HasForeignKey("MachineId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("OldHouse.Models.Alert", b =>
                 {
                     b.HasOne("OldHouse.Data.Patient", "Patient")
                         .WithMany("Alerts")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("OldHouse.Models.Machine", b =>
-                {
-                    b.HasOne("OldHouse.Data.Patient", "Patient")
-                        .WithMany()
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

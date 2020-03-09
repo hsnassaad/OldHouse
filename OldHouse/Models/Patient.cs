@@ -31,25 +31,20 @@ namespace OldHouse.Data
         public string Gender { get; set; }
 
         public string BloodType { get; set; }
-
-        public int MachineId { get; set; }
-
-        [ForeignKey("MachineId")]
-        public Machine Machine { get; set; }
-
-      
+		
         public string DisplayName
         {
             get { return FirstName + ' ' + LastName; }
             set { }
         }
 
-
         [Display(Name = "Created At")]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+		[DataType(DataType.DateTime)]
+		public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
         [Display(Name = "Updated At")]
-        public DateTime? UpdatedAt { get; set; }
+		[DataType(DataType.DateTime)]
+		public DateTime? UpdatedAt { get; set; }
 
         [NotMapped]
         public IEnumerable<SelectListItem> BloodTypes { get; set; } = new List<SelectListItem>
@@ -63,8 +58,8 @@ namespace OldHouse.Data
                 new SelectListItem {Value="A-",Text="A-"},
                 new SelectListItem {Value="AB-",Text="AB-"}
         };
-        public List<Record> Records { get; set; }
 
+        public List<Record> Records { get; set; }
         public Relative Relative { get; set; }
         public List<Alert> Alerts { get; set; }
     }
