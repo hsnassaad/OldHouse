@@ -1,0 +1,82 @@
+﻿@model IEnumerable<OldHouse.Data.Patient>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Patients</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create"> <i class="fas fa-plus"> </i>  Add New Patient</a>
+</p>
+
+<div class="input-group">
+    <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" title="Type in a patient name" placeholder="Search" style="width:1000px" aria-label="Recipient's username" aria-describedby="basic-addon2">
+</div>
+
+<br />
+<table class="table" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DisplayName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BloodType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Birthdate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BloodType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Birthdate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PatientId"><i class="fas fa-edit"></i></a> |
+                <a asp-action="Details" asp-route-id="@item.PatientId"><i class="fas fa-eye"></i></a> |
+                <a asp-action="Delete" asp-route-id="@item.PatientId"><i class="fas fa-trash"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

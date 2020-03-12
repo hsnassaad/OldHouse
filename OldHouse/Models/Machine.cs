@@ -13,14 +13,24 @@ namespace OldHouse.Models
         [Key]
         public int MachineId { get; set; }
 
-        public string Battery { get; set; }
+        [Range(0,100)]
+		public int Battery { get; set; }
 
-        public string Status { get; set; }
+        public Status Status { get; set; }
 
         public string SerialNumber
         {
             get { return "Machine #" + ' ' + MachineId; }
             set { }
         }
+
+        public Patient Patient { get; set; }
+    }
+
+   public enum Status
+    {
+        IN_USE = 1,
+        AVAILABLE = 2,
+        OUT_OF_SERVICE = 3
     }
 }

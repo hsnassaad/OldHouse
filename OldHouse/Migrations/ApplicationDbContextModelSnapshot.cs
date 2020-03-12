@@ -29,7 +29,7 @@ namespace OldHouse.Migrations
 
                     b.Property<string>("BloodType");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime?>("CreatedAt");
 
                     b.Property<string>("DisplayName");
 
@@ -50,7 +50,9 @@ namespace OldHouse.Migrations
 
                     b.HasKey("PatientId");
 
-                    b.HasIndex("MachineId");
+                    b.HasIndex("MachineId")
+                        .IsUnique()
+                        .HasFilter("[MachineId] IS NOT NULL");
 
                     b.ToTable("Patients");
                 });
@@ -85,11 +87,11 @@ namespace OldHouse.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Battery");
+                    b.Property<int>("Battery");
 
                     b.Property<string>("SerialNumber");
 
-                    b.Property<string>("Status");
+                    b.Property<int>("Status");
 
                     b.HasKey("MachineId");
 
@@ -156,8 +158,8 @@ namespace OldHouse.Migrations
             modelBuilder.Entity("OldHouse.Data.Patient", b =>
                 {
                     b.HasOne("OldHouse.Models.Machine", "Machine")
-                        .WithMany()
-                        .HasForeignKey("MachineId");
+                        .WithOne("Patient")
+                        .HasForeignKey("OldHouse.Data.Patient", "MachineId");
                 });
 
             modelBuilder.Entity("OldHouse.Models.Alert", b =>
