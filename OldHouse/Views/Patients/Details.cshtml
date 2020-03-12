@@ -41,14 +41,58 @@
             @Html.DisplayFor(model => model.BloodType)
         </dd>
 
-        @if (Model.MachineId != null)
-        {
-        <dt>
-            @Html.DisplayNameFor(model => model.Machine)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Machine.SerialNumber)
-        </dd>
+        @{
+
+            if (Model.MachineId != null)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.Machine)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Machine.SerialNumber)
+                </dd>
+
+                if (Model.Machine.Status.Equals(Status.OUT_OF_SERVICE))
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Machine.Status)
+                    </dt>
+                    <dd>
+                        <p><span class="text-danger"> OUT OF SERVICE </span><i> Please press <a asp-controller="Patients" asp-action="AssignPatientToMachine" asp-route-patientId="@Model.PatientId">here</a> to assign another machine</i></p>
+                    </dd>
+                }
+                else if (Model.Machine.Status.Equals(Status.IN_USE))
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Machine.Status)
+                    </dt>
+                    <dd>
+                        <p><i><span class="text-warning text-uppercase"> In Use</span> </i></p>
+                    </dd>
+                }
+
+                else if (Model.Machine.Status.Equals(Status.AVAILABLE))
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Machine.Status)
+                    </dt>
+                    <dd>
+                        <p><i><span class="text-success text-uppercase"> Available</span> </i></p>
+                    </dd>
+                }
+
+            }
+            else
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.Machine)
+                </dt>
+                <dd>
+                    <p> <i> Please press <a asp-controller="Patients" asp-action="AssignPatientToMachine" asp-route-patientId="@Model.PatientId">here</a> to assign a machine</i></p>
+                </dd>
+
+            }
+
         }
 
     </dl>

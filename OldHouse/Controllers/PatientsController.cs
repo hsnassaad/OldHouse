@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OldHouse.Data;
+using OldHouse.Models;
 
 namespace OldHouse.Controllers
 {
@@ -18,12 +19,33 @@ namespace OldHouse.Controllers
             _context = context;
         }
 
-        public IActionResult AssignPatientToMachine()
+        public async Task<IActionResult> AssignPatientToMachine(int? patientId)
         {
-            ViewData["MachineId"] = new SelectList(_context.Machines, "MachineId", "SerialNumber");
-            ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DisplayName");
+            if(patientId != null)
+            {
+                var patient = await _context.Patients.Include(p=>p.Machine).FirstOrDefaultAsync(p => p.PatientId == patientId);
+                ViewData["MachineId"] = new SelectList(_context.Machines.Where(m => (m.Status == Status.AVAILABLE) | (m.MachineId == patient.MachineId)), "MachineId", "SerialNumber");
+                ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DisplayName", patient.DisplayName);
+               
+                if(patient.MachineId != null && patient.Machine.Status == Status.OUT_OF_SERVICE)
+                {
+                    ViewData["DangerMessage"] = patient.Machine.SerialNumber + " is out of service.";
+                }
+                var machines = _context.Machines.Where(m => (m.Status == Status.AVAILABLE) | (m.MachineId == patient.MachineId));
+                if (machines.Count() <=0)
+                {
+                    return RedirectToAction(nameof(Details), patient.PatientId);
+                }
+            }
+            else
+            {
 
-
+                ViewData["MachineId"] = new SelectList(_context.Machines.Where(m => (m.Status == Status.AVAILABLE)), "MachineId", "SerialNumber");
+                ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DisplayName");
+                
+                ViewData["InfoMessage"] = "Please assign a machine to the patient.";
+            }
+           
 
             return View();
         }
@@ -31,8 +53,11 @@ namespace OldHouse.Controllers
         [HttpPost]
         public async Task<IActionResult> AssignPatientToMachine(int patientId, int machineId)
         {
-            var patient = await _context.Patients.FirstOrDefaultAsync(p => p.PatientId == patientId);
+            var patient = await _context.Patients.Include(p=>p.Machine).FirstOrDefaultAsync(p => p.PatientId == patientId);
+            var machine = await _context.Machines.FirstOrDefaultAsync(m => m.MachineId == machineId);
             patient.MachineId = machineId;
+            machine.Status = Status.IN_USE;
+            patient.Machine = machine;
 
             await _context.SaveChangesAsync();
 
@@ -200,7 +225,12 @@ namespace OldHouse.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var patient = await _context.Patients.FindAsync(id);
+            var patient = await _context.Patients.Include(p=>p.Machine).FirstOrDefaultAsync(p=>p.PatientId == id);
+            if(patient.Machine.Status == Status.IN_USE)
+            {
+                patient.Machine.Status = Status.AVAILABLE;
+
+            }
             _context.Patients.Remove(patient);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

@@ -9,7 +9,13 @@
 <p>
     <a class="btn btn-primary" asp-action="Create"> <i class="fas fa-plus"> </i>  Add New Patient</a>
 </p>
-<table class="table">
+
+<div class="input-group">
+    <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" title="Type in a patient name" placeholder="Search" style="width:1000px" aria-label="Recipient's username" aria-describedby="basic-addon2">
+</div>
+
+<br />
+<table class="table" id="myTable">
     <thead>
         <tr>
             <th>
@@ -51,3 +57,26 @@
 }
     </tbody>
 </table>
+
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

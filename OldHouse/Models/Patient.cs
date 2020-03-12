@@ -29,7 +29,7 @@ namespace OldHouse.Data
         public DateTime Birthdate { get; set; }
 
         [StringLength(256, ErrorMessage = "Maximum length for display name is {1}")]
-        public string Gender { get; set; }
+        public string Gender { get; set; } = "Male";
 
         [Display(Name = "Blood Type")]
         public string BloodType { get; set; }

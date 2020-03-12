@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Machines</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -28,11 +28,35 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Battery)
+                @Html.DisplayFor(modelItem => item.Battery) %
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
+            @{
+                if (item.Status.Equals(Status.AVAILABLE))
+                {
+                    <td>
+                        <span class="badge" style="background-color:green">`</span>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                }
+
+                if (item.Status.Equals(Status.IN_USE))
+                {
+                    <td>
+                        <span class="badge" style="background-color:yellow">`</span>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                }
+
+                if (item.Status.Equals(Status.OUT_OF_SERVICE))
+                {
+                    <td>
+                        <span class="badge" style="background-color:red">`</span>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                }
+
+            }
+
             <td>
                 @Html.DisplayFor(modelItem => item.SerialNumber)
             </td>
