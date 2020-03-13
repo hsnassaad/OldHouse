@@ -73,6 +73,7 @@
 
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script>
+        // Use SignalR to insure real time checking on the patients Machine's Battery / Records validity
         var connection = new signalR.HubConnectionBuilder().withUrl("/batteryCheck").build();
 
         connection.on("patientsBatteryCheckk", function (patientsBatteryMachine) {

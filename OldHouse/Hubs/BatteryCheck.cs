@@ -45,7 +45,11 @@ namespace OldHouse.Hubs
             await Clients.All.SendAsync("batteryCheckk", machines);
         }
 
-
+        /// <summary>
+        /// Call this method every 30 seconds to check the battery level for the patients 
+        /// and send specific alerts to the doctor in case of danger.
+        /// </summary>
+        /// <returns></returns>
         public async Task CheckPatientsBatteryMachineStatus()
         {
             var BatteryBelow50 = new List<string>();
@@ -67,7 +71,11 @@ namespace OldHouse.Hubs
             await Clients.All.SendAsync("patientsBatteryCheckk", BatteryBelow50);
         }
 
-
+        /// <summary>
+        /// Call this method every 30 seconds to check patients status 
+        /// and send diffrent alert in case for any abnormal records
+        /// </summary>
+        /// <returns></returns>
         public async Task CheckPatientRecords()
         {
             var BadPatients = new List<string>();
