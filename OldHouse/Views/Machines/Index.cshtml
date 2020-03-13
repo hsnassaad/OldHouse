@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<OldHouse.Models.Machine>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Machines";
 }
 
 <h2>Machines</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create"> <i class="fas fa-plus"> </i>  Add New Machine</a>
 </p>
-<table class="table">
+<table class="table" id="machines">
     <thead>
         <tr>
             <th>
@@ -24,48 +24,77 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Battery) %
-            </td>
-            @{
-                if (item.Status.Equals(Status.AVAILABLE))
-                {
-                    <td>
-                        <span class="badge" style="background-color:green">`</span>
-                        @Html.DisplayFor(modelItem => item.Status)
-                    </td>
+    <tbody id="machine-tbody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Battery) %
+                </td>
+                @{
+                    if (item.Status.Equals(Status.AVAILABLE))
+                    {
+                        <td>
+                            <img src="~/images/green-circle.png" style="width:16px" />
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                    }
+
+                    if (item.Status.Equals(Status.IN_USE))
+                    {
+                        <td>
+                            <img src="~/images/yellow-circle.png" style="width:16px" />
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                    }
+
+                    if (item.Status.Equals(Status.OUT_OF_SERVICE))
+                    {
+                        <td>
+                            <img src="~/images/red-circle.png" style="width:16px" />
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                    }
+
                 }
 
-                if (item.Status.Equals(Status.IN_USE))
-                {
-                    <td>
-                        <span class="badge" style="background-color:yellow">`</span>
-                        @Html.DisplayFor(modelItem => item.Status)
-                    </td>
-                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.SerialNumber)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MachineId"><i class="fas fa-edit"></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.MachineId"><i class="fas fa-eye"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.MachineId"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+        }
 
-                if (item.Status.Equals(Status.OUT_OF_SERVICE))
-                {
-                    <td>
-                        <span class="badge" style="background-color:red">`</span>
-                        @Html.DisplayFor(modelItem => item.Status)
-                    </td>
-                }
-
-            }
-
-            <td>
-                @Html.DisplayFor(modelItem => item.SerialNumber)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MachineId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MachineId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MachineId">Delete</a>
-            </td>
-        </tr>
-}
     </tbody>
 </table>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script>
+    var connection = new signalR.HubConnectionBuilder().withUrl("/batteryCheck").build();
+
+    connection.on("batteryCheckk", function (machines) {
+        $('#machines tbody tr td:first-child').each(function (i) {
+            this.innerHTML = machines[i].battery + " %";
+        })
+
+    });
+    connection.start().then(function () {
+        console.log("connection started");
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    setInterval(function () {
+        connection.invoke("Check").catch(function (err) {
+            return console.error(err.toString());
+        });
+    }, 1000 * 60 * 0.2);
+</script>
+
+}

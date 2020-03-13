@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OldHouse.Data;
+using OldHouse.Data.Seeded_Data;
 
 namespace OldHouse
 {
@@ -28,10 +29,8 @@ namespace OldHouse
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     context.Database.Migrate();
 
-                    //DoctorsData.Initialize(services);
-                    // InsuranceData.Initialize(services);
-                    // PatientData.Initialize(services);
-                    // AssistantData.Initialize(services);
+                     PatientData.Initialize(services);
+                     MachineData.Initialize(services);
                 }
                 catch (Exception ex)
                 {

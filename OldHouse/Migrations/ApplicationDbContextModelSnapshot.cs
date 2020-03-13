@@ -109,7 +109,6 @@ namespace OldHouse.Migrations
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(2147483647);
 
                     b.Property<float>("GlucoseLevel");

@@ -19,33 +19,30 @@ namespace OldHouse.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> AssignPatientToMachine(int? patientId)
+        public async Task<IActionResult> AssignPatientToMachine(int patientId)
         {
-            if(patientId != null)
-            {
+           
                 var patient = await _context.Patients.Include(p=>p.Machine).FirstOrDefaultAsync(p => p.PatientId == patientId);
-                ViewData["MachineId"] = new SelectList(_context.Machines.Where(m => (m.Status == Status.AVAILABLE) | (m.MachineId == patient.MachineId)), "MachineId", "SerialNumber");
-                ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DisplayName", patient.DisplayName);
+                var machines = _context.Machines.Where(m => (m.Status == Status.AVAILABLE) | (m.MachineId == patient.MachineId));
                
+            if(patient.MachineId == null)
+            {
+                ViewData["MachineId"] = new SelectList(machines, "MachineId", "SerialNumber");
+                ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DisplayName", patient.DisplayName);
+                TempData["InfoMessage"] = "Please assign a machine to " + patient.DisplayName;
+            }
+
                 if(patient.MachineId != null && patient.Machine.Status == Status.OUT_OF_SERVICE)
                 {
-                    ViewData["DangerMessage"] = patient.Machine.SerialNumber + " is out of service.";
-                }
-                var machines = _context.Machines.Where(m => (m.Status == Status.AVAILABLE) | (m.MachineId == patient.MachineId));
+                TempData["DangerMessage"] = patient.Machine.SerialNumber + " is out of service.";
+                ViewData["MachineId"] = new SelectList(machines, "MachineId", "SerialNumber", patient.Machine.SerialNumber);
+                ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DisplayName", patient.DisplayName);
+            }
                 if (machines.Count() <=0)
                 {
-                    return RedirectToAction(nameof(Details), patient.PatientId);
+                    TempData["NoMachineAvailable"] = "There are no machines available at this time.";
+                    return RedirectToAction(nameof(Details), new { id = patient.PatientId });
                 }
-            }
-            else
-            {
-
-                ViewData["MachineId"] = new SelectList(_context.Machines.Where(m => (m.Status == Status.AVAILABLE)), "MachineId", "SerialNumber");
-                ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DisplayName");
-                
-                ViewData["InfoMessage"] = "Please assign a machine to the patient.";
-            }
-           
 
             return View();
         }
