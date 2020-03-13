@@ -1,11 +1,18 @@
 ﻿@model OldHouse.Data.Patient
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Details Patient";
 }
 
 <h2>Details</h2>
-
+@{
+    if (TempData["NoMachineAvailable"] != null)
+    {
+    <div class="alert alert-warning">
+        @TempData["NoMachineAvailable"]
+    </div>
+    }
+    }
 <div>
     <h4>Patient</h4>
     <hr />
@@ -23,6 +30,13 @@
             @Html.DisplayFor(model => model.LastName)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.BloodType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BloodType)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Birthdate)
         </dt>
         <dd>
@@ -33,12 +47,6 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.BloodType)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.BloodType)
         </dd>
 
         @{
@@ -94,7 +102,6 @@
             }
 
         }
-
     </dl>
 </div>
 <div>

@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OldHouse.Data;
+using OldHouse.Hubs;
 
 namespace OldHouse
 {
@@ -37,7 +38,7 @@ namespace OldHouse
             var connString = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connString));
-
+            services.AddSignalR();
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -58,6 +59,10 @@ namespace OldHouse
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<BatteryCheck>("/batteryCheck");
+            });
 
             app.UseMvc(routes =>
             {

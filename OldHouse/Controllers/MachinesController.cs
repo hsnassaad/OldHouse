@@ -14,18 +14,30 @@ namespace OldHouse.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        #region Constructor 
         public MachinesController(ApplicationDbContext context)
         {
             _context = context;
         }
+        #endregion
 
-        // GET: Machines
+        #region Methods
+        /// <summary>
+        /// GET: Machines
+        /// Call this method when you want to get all the machines and want to display them in the index page.
+        /// </summary>
+        /// <returns>list of type machines</returns>
         public async Task<IActionResult> Index()
         {
             return View(await _context.Machines.ToListAsync());
         }
 
-        // GET: Machines/Details/5
+        /// <summary>
+        /// GET: Machines/Details/5
+        /// Call this method when you want to show the details for a specific machine (Battery Lvl, Serial Number, Status)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Object of type Machine</returns>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,15 +55,22 @@ namespace OldHouse.Controllers
             return View(machine);
         }
 
-        // GET: Machines/Create
+        /// <summary>
+        /// GET: Machines/Create
+        /// Call this method when you want to show the create page
+        /// </summary>
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Machines/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// POST: Machines/Create
+        /// Call this method when you press on the save button 
+        /// and want to save and create the specifyed number of machines
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int num)
@@ -69,7 +88,12 @@ namespace OldHouse.Controllers
                 return RedirectToAction(nameof(Index));
         }
 
-        // GET: Machines/Edit/5
+        /// <summary>
+        /// GET: Machines/Edit/5
+        /// Call this method when you want to edit the machine information
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Object of type Machine</returns>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,9 +110,13 @@ namespace OldHouse.Controllers
             return View(machine);
         }
 
-        // POST: Machines/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// POST: Machines/Edit/5
+        /// Call this method when you want to save your updated information for a specific machine
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="machine"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("MachineId,Battery,Status,SerialNumber")] Machine machine)
@@ -121,7 +149,12 @@ namespace OldHouse.Controllers
             return View(machine);
         }
 
-        // GET: Machines/Delete/5
+        /// <summary>
+        /// GET: Machines/Delete/5
+        /// Call this method when you want to delete a specific machine 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,7 +172,12 @@ namespace OldHouse.Controllers
             return View(machine);
         }
 
-        // POST: Machines/Delete/5
+        /// <summary>
+        /// POST: Machines/Delete/5
+        /// Call this method when you want to delete a specific machine 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -154,5 +192,6 @@ namespace OldHouse.Controllers
         {
             return _context.Machines.Any(e => e.MachineId == id);
         }
+        #endregion
     }
 }

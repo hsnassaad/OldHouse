@@ -13,29 +13,25 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="BloodPressure" class="control-label"></label>
-                <input asp-for="BloodPressure" class="form-control" />
+                <input asp-for="BloodPressure" class="form-control"  placeholder="Normal between 90 - 120"/>
                 <span asp-validation-for="BloodPressure" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HeartRate" class="control-label"></label>
-                <input asp-for="HeartRate" class="form-control" />
+                <input asp-for="HeartRate" class="form-control" placeholder="Normal between 60 - 100"/>
                 <span asp-validation-for="HeartRate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Temperature" class="control-label"></label>
-                <input asp-for="Temperature" class="form-control" />
+                <input asp-for="Temperature" class="form-control" placeholder="Normal body temperature = 37"/>
                 <span asp-validation-for="Temperature" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="GlucoseLevel" class="control-label"></label>
-                <input asp-for="GlucoseLevel" class="form-control" />
+                <input asp-for="GlucoseLevel" class="form-control" placeholder="Normal between 3.9 and 7.1"/>
                 <span asp-validation-for="GlucoseLevel" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -43,13 +39,9 @@
                 <select asp-for="PatientId" class="form-control" asp-items="ViewBag.PatientId"></select>
                 <span asp-validation-for="PatientId" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>

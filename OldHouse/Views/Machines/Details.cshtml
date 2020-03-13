@@ -13,24 +13,52 @@
         <dt>
             @Html.DisplayNameFor(model => model.Battery)
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Battery)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SerialNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SerialNumber)
-        </dd>
-    </dl>
+        @{
+            if (Model.Status.Equals(Status.AVAILABLE))
+            {
+
+                    <dd>
+                    <img src="~/images/green-circle.png" style="width:16px" />
+                        @Html.DisplayFor(model => model.Battery) %
+                    </dd>
+
+            }
+
+            if (Model.Status.Equals(Status.IN_USE))
+            {
+
+                <dd>
+                    <img src="~/images/yellow-circle.png" style="width:16px" />
+                    @Html.DisplayFor(model => model.Battery) %
+                </dd>
+
+            }
+
+            if (Model.Status.Equals(Status.OUT_OF_SERVICE))
+            {
+
+                <dd>
+                <img src="~/images/red-circle.png" style="width:16px" />
+                    @Html.DisplayFor(model => model.Battery) %
+                </dd>
+
+                }
+            }
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.SerialNumber)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SerialNumber)
+            </dd>
+        </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.MachineId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.MachineId" class="btn btn-warning">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
