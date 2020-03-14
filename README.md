@@ -30,7 +30,7 @@ git clone https://github.com/hsnassaad/OldHouse.git
 After the first step is done
 
 ```
-Open the project in the Visual Studio 2017 And press on the run button or press
+Open the project in the Visual Studio 2017 And press on the run button (or press Ctr + f5)
 ```
 
 End with an example of getting some data out of the system or using it for a little demo
