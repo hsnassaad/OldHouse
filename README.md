@@ -22,8 +22,9 @@ A step by step series of examples that tell you how to get a development env run
 
 Say what the step will be
 
+First run this command in the cmd to clone the project into your machine
 ```
-First run this command in the cmd to clone the project in you machine git clone https://github.com/hsnassaad/OldHouse.git
+git clone https://github.com/hsnassaad/OldHouse.git
 ```
 
 After the first step is done
