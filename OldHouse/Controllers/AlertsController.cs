@@ -22,7 +22,7 @@ namespace OldHouse.Controllers
         // GET: Alerts
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Alerts.Include(a => a.Patient);
+            var applicationDbContext = _context.Alerts.Include(a => a.Patient).Where(a=>a.Seen == false);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -41,7 +41,8 @@ namespace OldHouse.Controllers
             {
                 return NotFound();
             }
-
+            alert.Seen = true;
+           await _context.SaveChangesAsync();
             return View(alert);
         }
 

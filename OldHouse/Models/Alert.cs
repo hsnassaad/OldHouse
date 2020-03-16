@@ -28,5 +28,7 @@ namespace OldHouse.Models
         [ForeignKey("PatientId")]
         public Patient Patient { get; set; }
 
+        public bool Seen { get; set; } = false;
+
 	}
 }
