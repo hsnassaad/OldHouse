@@ -20,7 +20,7 @@
             @Html.DisplayNameFor(model => model.CreatedAt)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
+            @Html.DisplayFor(model => model.CreatedAt.Date)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Level)
@@ -32,7 +32,7 @@
             @Html.DisplayNameFor(model => model.Patient)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Patient.FirstName)
+            @Html.DisplayFor(model => model.Patient.DisplayName)
         </dd>
     </dl>
 </div>

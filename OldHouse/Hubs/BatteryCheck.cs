@@ -64,7 +64,7 @@ namespace OldHouse.Hubs
                         var errorMsg = patients[i].DisplayName + " 's Machine have battery low";
                         BatteryBelow50.Add(errorMsg);
                         _context.Alerts.Add(new Alert() { Level = "Battery", PatientId = patients[i].PatientId, Description = errorMsg });
-                    }
+                    } 
                 }
             }
             await _context.SaveChangesAsync();
