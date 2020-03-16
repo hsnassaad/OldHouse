@@ -42,7 +42,7 @@ namespace OldHouse.Data.Seeded_Data
                            },
                           new Machine
                           {
-                              Battery = 55,
+                              Battery = 65,
                               Status = Status.AVAILABLE
                           }
                 );

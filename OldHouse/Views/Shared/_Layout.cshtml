@@ -34,6 +34,7 @@
                     <li><a asp-area="" asp-controller="Patients" asp-action="Index" style="color:black">Patients</a></li>
                     <li><a asp-area="" asp-controller="Machines" asp-action="Index" style="color:black">Machines</a></li>
                     <li><a asp-area="" asp-controller="Records" asp-action="Index" style="color:black">Records</a></li>
+                    <li><a asp-area="" asp-controller="Alerts" asp-action="Index" style="color:black">Alerts</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About" style="color:black">About</a></li>
                 </ul>
             </div>
@@ -73,6 +74,7 @@
 
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script>
+        // Use SignalR to insure real time checking on the patients Machine's Battery / Records validity
         var connection = new signalR.HubConnectionBuilder().withUrl("/batteryCheck").build();
 
         connection.on("patientsBatteryCheckk", function (patientsBatteryMachine) {
