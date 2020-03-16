@@ -129,16 +129,16 @@ namespace OldHouse.Hubs
                     }
                     if (tmp < 37)
                     {
-                        BadPatients.Add(patients[i].DisplayName + " 's Heart Rate is below 37 C");
+                        BadPatients.Add(patients[i].DisplayName + " 's Temperature is below 37 C");
                         
                             _context.Alerts.Add(new Alert() { Level = "Danger", PatientId = patients[i].PatientId, Description = patients[i].DisplayName + " 's Heart Rate is below 37 C" });
                     }
 
                     if (tmp > 37)
                     {
-                        BadPatients.Add(patients[i].DisplayName + " 's Heart Rate is above 37 C");
+                        BadPatients.Add(patients[i].DisplayName + " 's Temperature is above 37 C");
                         
-                            _context.Alerts.Add(new Alert() { Level = "Danger", PatientId = patients[i].PatientId, Description = patients[i].DisplayName + " 's Heart Rate is above 37 C" });
+                            _context.Alerts.Add(new Alert() { Level = "Danger", PatientId = patients[i].PatientId, Description = patients[i].DisplayName + " 's Temperature is above 37 C" });
                     }
                 }
             }
